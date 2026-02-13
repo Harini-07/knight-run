@@ -3466,7 +3466,7 @@ function winGame() {
 }
 
 function downloadPrincessCoupon() {
-    const couponPath = 'assets/images/coupon2.png';
+    const couponPath = 'assets/images/coupon.png';
     const link = document.createElement('a');
     link.href = couponPath;
     link.download = 'special-coupon.png';
