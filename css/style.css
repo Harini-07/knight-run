@@ -1,0 +1,1077 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap');
+
+:root {
+    /* --- GREY + ROSE THEME --- */
+    /* Base: #282c2f, Accent: #d57d7c, Metals: rose-gold */
+    
+    /* Stone / Wood Tones */
+    --stone-darkest: #1b1e22; /* Deepest shadow */
+    --stone-dark: #282c2f;    /* Main UI frame */
+    --stone-mid: #3a4048;     /* Borders/Dividers */
+    --stone-light: #676f7a;   /* Highlights */
+    
+    /* Metals */
+    --iron: #8994a0;
+    --iron-dark: #1f2429;
+    
+    /* Royal Accents (Gold/Bronze) */
+    --gold: #b76e79;          /* Rose-gold base */
+    --gold-bright: #e5b3af;   /* Rose-gold highlight */
+    --gold-dim: #8f525d;      /* Rose-gold shadow */
+    
+    /* Text Colors */
+    --text-light: #f4e8ea;    /* Light rosy ivory */
+    --text-dim: #d2bdc1;      /* Muted text */
+    
+    /* Gameplay Colors */
+    --heart-red: #d9304e;
+    --moss-green: #4a6b4a;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+}
+
+body {
+    font-family: 'Crimson Text', Georgia, serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+    background-color: #05070a;
+    color: var(--text-light);
+    
+    /* --- THE BACKGROUND --- */
+    /* Using your specific image */
+    background-image: url('../assets/images/background_image.png');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover; 
+    background-attachment: fixed;
+}
+
+/* ========== ATMOSPHERE OVERLAYS ========== */
+
+/* 1. Vignette: Darkens the corners to focus on the game */
+.vignette {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(circle at center, rgba(0,0,0,0.1) 0%, rgba(5,8,12,0.9) 100%);
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* 2. Floating Embers: Adds life to the dungeon */
+.embers {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.ember {
+    position: absolute;
+    width: 7px; height: 7px;
+    background: #d57d7c;
+    box-shadow: 0 0 6px #b76e79;
+    border-radius: 50%;
+    animation: emberFloat 10s linear infinite;
+    opacity: 0;
+}
+
+/* Random ember positioning */
+.ember:nth-child(1) { left: 10%; animation-duration: 7s; animation-delay: 0s; }
+.ember:nth-child(2) { left: 25%; animation-duration: 12s; animation-delay: 2s; }
+.ember:nth-child(3) { left: 50%; animation-duration: 9s; animation-delay: 5s; }
+.ember:nth-child(4) { left: 75%; animation-duration: 14s; animation-delay: 1s; }
+.ember:nth-child(5) { left: 90%; animation-duration: 8s; animation-delay: 3s; }
+
+@keyframes emberFloat {
+    0% { transform: translateY(110vh) scale(0.5); opacity: 0; }
+    20% { opacity: 0.8; }
+    80% { opacity: 0.6; }
+    100% { transform: translateY(-10vh) scale(0); opacity: 0; }
+}
+
+/* ========== GAME UI CONTAINER ========== */
+/* ========== GAME UI CONTAINER ========== */
+.game-container {
+    position: relative;
+    z-index: 10;
+    width: 95%;
+    max-width: 860px;
+    
+    background: linear-gradient(180deg, rgba(47, 52, 57, 0.5) 0%, rgba(37, 41, 45, 0.3) 100%);
+    border: 2px solid #8b93a0;
+    
+    /* Glow/Shadow to separate it from the wall */
+    box-shadow: 
+        0 0 0 1px #000,                 /* Sharp inner black line */
+        0 0 20px rgba(0, 0, 0, 0.8),    /* Soft shadow */
+        0 0 0 4px rgba(213, 125, 124, 0.18); /* Faint rose glow ring */
+        
+    padding: 6px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    backdrop-filter: blur(5px); 
+}
+
+/* ========== INNER PARCHMENT AREA ========== */
+.parchment {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    
+    /* Subtle separation from the main container */
+    background: linear-gradient(
+  180deg,
+  rgba(45, 50, 55, 0.7) 0%,
+  rgba(36, 40, 44, 0.7) 100%
+);
+
+    border: 1px solid rgba(213, 125, 124, 0.24);
+    
+    padding: 15px;
+    position: relative;
+    border-radius: 4px;
+}
+
+/* Update Header Border to match */
+.header {
+    text-align: center;
+    margin-bottom: 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 10px;
+}
+/* ========== STATS BAR ========== */
+/* Update stat dividers to match the warm theme */
+.stat-divider { 
+    color: #8b95a3;
+    font-size: 0.8em; 
+    opacity: 0.6; 
+}
+
+/* ========== CANVAS WRAPPER ========== */
+.canvas-wrapper {
+    position: relative;
+    /* Change border from cool dark to warm dark */
+    border: 4px solid #1f2429; 
+    box-shadow: 0 0 25px rgba(0,0,0,0.8);
+    background: #000;
+    margin-bottom: 10px;
+}
+
+/* ========== CHECKERED BORDER ========== */
+.checkered-border {
+    height: 12px;
+    margin-top: 8px;
+    border-top: 1px solid #21262b;
+    border-bottom: 1px solid #21262b;
+    
+    /* Update checker colors to Warm Grey + Dark Brown */
+    background-image: 
+        linear-gradient(45deg, #262c32 25%, transparent 25%), 
+        linear-gradient(-45deg, #262c32 25%, transparent 25%), 
+        linear-gradient(45deg, transparent 75%, #262c32 75%), 
+        linear-gradient(-45deg, transparent 75%, #262c32 75%);
+    background-color: #4a515a;
+    background-size: 12px 12px;
+    background-position: 0 0, 0 6px, 6px -6px, -6px 0px;
+    opacity: 0.7;
+}
+/* ========== HEADER TYPOGRAPHY ========== */
+.header {
+    text-align: center;
+    margin-bottom: 12px;
+    border-bottom: 2px solid var(--stone-mid);
+    padding-bottom: 10px;
+}
+
+h1 {
+    font-family: 'Cinzel', serif;
+    font-size: 2.4em;
+    color: var(--text-light);
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    margin-bottom: 4px;
+    
+    /* Metallic Text Gradient */
+    background: linear-gradient(to bottom, #ffe9ea 15%, #d99f9f 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 2px 0px rgba(0,0,0,0.8));
+}
+
+.initial {
+    font-size: 1.2em;
+    color: var(--gold-bright);
+    background: linear-gradient(to bottom, var(--gold-bright) 20%, var(--gold) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.subtitle {
+    font-family: 'Cinzel', serif;
+    font-size: 0.85em;
+    color: var(--gold);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: 0.9;
+}
+
+/* ========== STATS BAR ========== */
+.stats {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    padding: 8px 0;
+    margin-bottom: 10px;
+    font-family: 'Cinzel', serif;
+}
+
+.stat-box {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    font-size: 1.1em;
+}
+
+.stat-icon { filter: drop-shadow(0 0 5px rgba(255,255,255,0.2)); }
+.stat-divider { color: var(--stone-light); font-size: 0.8em; opacity: 0.5; }
+
+.stat-value { color: var(--text-light); }
+
+/* Item Colors */
+#hearts { color: var(--heart-red); text-shadow: 0 0 8px rgba(217, 48, 78, 0.4); }
+#sunflowers { color: #ffd700; }
+#teddies { color: #a67c52; }
+
+/* ========== CANVAS ========== */
+.canvas-wrapper {
+    position: relative;
+    border: 4px solid var(--stone-dark);
+    box-shadow: 0 0 25px rgba(0,0,0,0.8);
+    background: #000;
+    margin-bottom: 10px;
+}
+
+#gameCanvas {
+    display: block;
+    width: 100%;
+    height: auto;
+    image-rendering: pixelated; /* Keeps pixel art crisp */
+}
+
+/* ========== CONTROLS SECTION ========== */
+.controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+    margin-top: 5px;
+}
+
+.instructions {
+    color: var(--text-dim);
+    font-size: 0.95em;
+}
+
+.key {
+    display: inline-block;
+    padding: 2px 8px;
+    background: rgba(213, 125, 124, 0.14);
+    border: 1px solid var(--stone-light);
+    border-radius: 3px;
+    font-family: monospace;
+    font-weight: bold;
+    color: var(--gold-bright);
+    margin: 0 2px;
+    box-shadow: 0 2px 0 var(--stone-darkest);
+}
+
+.divider { color: var(--stone-light); margin: 0 8px; }
+
+/* ========== BUTTONS (Royal Gold) ========== */
+.btn-primary {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 1.1em;
+    padding: 10px 35px;
+    color: #261b1f;
+    
+    /* Gold Gradient Background */
+    background: linear-gradient(180deg, #b78e6e 0%, #f5a6b2 100%);
+    border: 2px solid var(--gold-dim);
+    border-radius: 2px;
+    cursor: pointer;
+    
+    box-shadow: 
+        0 4px 0 var(--gold-dim),
+        0 5px 15px rgba(0,0,0,0.5);
+    transition: all 0.1s ease;
+    text-shadow: 0 1px 0 rgba(255,255,255,0.3);
+}
+
+.btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 
+        0 5px 0 var(--gold-dim),
+        0 0 25px rgba(213, 125, 124, 0.45);
+    filter: brightness(1.1);
+}
+
+.btn-primary:active {
+    transform: translateY(2px);
+    box-shadow: 0 1px 0 var(--gold-dim);
+}
+
+/* ========== CHECKERED BORDER (Bottom Decoration) ========== */
+.checkered-border {
+    height: 12px;
+    margin-top: 8px;
+    border-top: 1px solid var(--stone-dark);
+    border-bottom: 1px solid var(--stone-dark);
+    
+    /* Chessboard Pattern */
+    background-image: 
+        linear-gradient(45deg, #2a2f35 25%, transparent 25%), 
+        linear-gradient(-45deg, #2a2f35 25%, transparent 25%), 
+        linear-gradient(45deg, transparent 75%, #2a2f35 75%), 
+        linear-gradient(-45deg, transparent 75%, #2a2f35 75%);
+    background-color: #49505a; /* Slate band */
+    background-size: 12px 12px;
+    background-position: 0 0, 0 6px, 6px -6px, -6px 0px;
+    opacity: 0.6;
+}
+
+/* ========== TORCHES (Left/Right Decorations) ========== */
+.torch {
+    position: absolute;
+    top: 40%;
+    width: 20px; height: 60px;
+    z-index: 20;
+}
+.torch.left { left: -30px; }
+.torch.right { right: -30px; }
+
+.torch::after {
+    content: ''; /* Torch Handle */
+    position: absolute; bottom: 0; left: 6px;
+    width: 8px; height: 45px;
+    background: #2a1a10;
+    border: 1px solid #000;
+    box-shadow: inset 2px 0 0 rgba(255,255,255,0.1);
+}
+
+.flame {
+    position: absolute; top: -15px; left: 2px;
+    width: 16px; height: 25px;
+    background: radial-gradient(
+        ellipse at center,
+        #ffe8ef 0%,
+        #d5aa7c 62%,
+        rgba(183, 110, 121, 0) 100%
+    );
+    border-radius: 50% 50% 20% 20%;
+    filter: blur(1px);
+    box-shadow: 0 0 8px rgba(213, 125, 124, 0.45);
+    animation: flicker 0.15s infinite alternate;
+    opacity: 0.9;
+}
+.flame:nth-child(2) {
+    top: -10px; width: 10px; height: 18px; left: 5px;
+    background: radial-gradient(
+        ellipse at center,
+        #ffd6e2 0%,
+        #b76e79 85%,
+        rgba(143, 82, 93, 0) 100%
+    );
+    animation-duration: 0.2s;
+}
+
+@keyframes flicker {
+    0% { transform: scale(1); opacity: 0.9; }
+    100% { transform: scale(1.1) translateY(-2px); opacity: 1; }
+}
+
+/* ========== MODALS (Win/Lose) ========== */
+.modal {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.9);
+    backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 200;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+}
+
+.modal:not(.hidden) {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modal-content {
+    background: var(--stone-dark);
+    border: 2px solid var(--gold);
+    padding: 35px 50px;
+    text-align: center;
+    box-shadow: 
+        0 0 50px rgba(0,0,0,1), 
+        inset 0 0 50px rgba(0,0,0,0.8);
+    max-width: 450px;
+    position: relative;
+}
+
+/* Intro modal should appear inside the game container on page load */
+.intro-screen {
+    position: absolute;
+    inset: 0;
+    padding: 10px;
+    background: rgba(18, 20, 24, 0.88);
+    z-index: 120;
+}
+
+.intro-screen .modal-content {
+    width: min(86vw, 540px);
+    max-width: 540px;
+    max-height: calc(100% - 20px);
+    overflow-y: auto;
+    padding: 18px 22px;
+    border: 2px solid #ca8f95;
+    border-radius: 6px;
+    color: #f6eaec;
+    box-shadow:
+        0 14px 34px rgba(0, 0, 0, 0.55),
+        inset 0 0 0 1px rgba(255, 227, 230, 0.26),
+        inset 0 -16px 30px rgba(18, 16, 18, 0.28);
+    background:
+        radial-gradient(circle at 18% 14%, rgba(213, 125, 124, 0.2) 0%, rgba(213, 125, 124, 0.07) 26%, transparent 42%),
+        radial-gradient(circle at 84% 82%, rgba(33, 37, 42, 0.2) 0%, transparent 36%),
+        repeating-linear-gradient(0deg, rgba(255, 230, 233, 0.03) 0 2px, rgba(24, 27, 30, 0.03) 2px 4px),
+        linear-gradient(180deg, #394048 0%, #2e343b 54%, #252a30 100%);
+}
+
+.intro-content .modal-decoration {
+    font-size: 2.4em;
+    margin-bottom: 8px;
+    color: #e2a1a1;
+}
+
+.intro-content .modal-divider {
+    margin: 12px 0;
+}
+
+.intro-content .btn-primary {
+    margin-top: 8px;
+}
+
+.intro-content .intro-lines {
+    column-count: 1 !important;
+    max-width: 500px;
+    margin: 0 auto;
+    line-height: 1.6;
+    text-align: left;
+}
+
+.intro-content p {
+    margin: 10px 0;
+    font-size: 15px;
+    color: #f6eaec;
+    text-align: left;
+}
+
+.lead-line {
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.whisper {
+    opacity: 0.65;
+    font-size: 14px;
+    margin-top: 6px;
+}
+
+.intro-screen .modal-content::before {
+    border-color: rgba(213, 125, 124, 0.48);
+}
+
+.intro-content .royal-heading {
+    color: #f0c6c9;
+}
+
+.intro-content .key {
+    background: rgba(213, 125, 124, 0.2);
+    border-color: #d8a0a0;
+    color: #ffeef0;
+    box-shadow: 0 1px 0 rgba(20, 18, 20, 0.6);
+}
+
+/* Decorative border inside modal */
+.modal-content::before {
+    content: '';
+    position: absolute;
+    top: 5px; left: 5px; right: 5px; bottom: 5px;
+    border: 1px solid var(--stone-light);
+    pointer-events: none;
+}
+
+.modal-decoration { font-size: 3.5em; margin-bottom: 15px; }
+.game-over .modal-decoration { filter: grayscale(100%); opacity: 0.5; }
+.win-screen .modal-decoration { animation: pulse 2s infinite; }
+
+.modal h2 {
+    font-family: 'Cinzel', serif;
+    font-size: 2em;
+    margin-bottom: 15px;
+    color: var(--text-light);
+}
+
+.win-title {
+    background: linear-gradient(45deg, #e7b2b2, #fff0f2, #b76e79);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.highlight {
+    color: var(--gold-bright);
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.collectibles span {
+    margin: 0 10px;
+    font-size: 1.2em;
+}
+
+.modal-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--stone-light), transparent);
+    margin: 20px 0;
+}
+
+/* Helper to hide things */
+.hidden { display: none !important; }
+
+/* Animation Utils */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .torch { display: none; }
+    .game-container { width: 100%; max-width: 100%; border: none; }
+    .corner-bracket { display: none; }
+    .intro-content .intro-lines { column-count: 1; }
+}
+
+.intro-lines.single-column {
+    column-count: 1;
+    column-gap: 0;
+    max-width: 500px;
+    margin: 0 auto;
+    text-align: left;
+    line-height: 1.5;
+    font-size: 14.5px;
+    letter-spacing: 0.2px;
+}
+
+.intro-lines.single-column p {
+    margin: 10px 0;
+}
+
+.lead-line {
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.controls-line {
+    margin-top: 14px;
+    font-style: italic;
+}
+
+.closing-line {
+    margin-top: 16px;
+    font-weight: 500;
+}
+
+.whisper {
+    opacity: 0.75;
+    font-style: italic;
+    font-size: 13px;
+    margin-top: 4px;
+}
+
+/* ============================= */
+/* WIN SCREEN REFINED DESIGN */
+/* ============================= */
+
+.win-screen {
+    overflow: hidden;
+}
+
+.win-screen::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+        radial-gradient(circle at 30% 25%, rgba(213, 125, 124, 0.16) 0%, rgba(213, 125, 124, 0) 45%),
+        radial-gradient(circle at 75% 35%, rgba(255, 226, 232, 0.12) 0%, rgba(255, 226, 232, 0) 42%),
+        radial-gradient(circle at 50% 80%, rgba(183, 110, 121, 0.14) 0%, rgba(183, 110, 121, 0) 48%);
+    animation: winAuraPulse 6s ease-in-out infinite;
+}
+
+.win-screen .modal-content.victory {
+    background: linear-gradient(
+        180deg,
+        #343a41 0%,
+        #242a30 100%
+    );
+    border: 2px solid var(--gold);
+    padding: 45px 55px;
+    max-width: 520px;
+    border-radius: 6px;
+
+    /* Rose-gold glow inside */
+    box-shadow:
+        0 0 60px rgba(0, 0, 0, 0.9),
+        inset 0 0 80px rgba(213, 125, 124, 0.12),
+        0 0 20px rgba(183, 110, 121, 0.28);
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    z-index: 1;
+}
+
+.win-screen .modal-content.victory > * {
+    position: relative;
+    z-index: 2;
+}
+
+.win-screen .modal-content.victory::before {
+    border-color: rgba(232, 179, 185, 0.6);
+    box-shadow: inset 0 0 22px rgba(213, 125, 124, 0.12);
+    animation: victoryBorderGlow 3.8s ease-in-out infinite;
+}
+
+.win-screen .modal-content.victory::after {
+    content: '';
+    position: absolute;
+    inset: -40% -20%;
+    pointer-events: none;
+    z-index: 1;
+    background: linear-gradient(
+        120deg,
+        rgba(255, 255, 255, 0) 42%,
+        rgba(255, 232, 238, 0.15) 50%,
+        rgba(255, 255, 255, 0) 58%
+    );
+    transform: translateX(-80%) rotate(4deg);
+    animation: victoryShimmer 5.5s linear infinite;
+}
+
+/* Crown icon */
+.victory-crown {
+    font-size: 2.5em;
+    margin-bottom: 15px;
+    color: var(--gold-bright);
+    filter: drop-shadow(0 0 8px rgba(213, 125, 124, 0.45));
+    animation: crownFloat 2.8s ease-in-out infinite;
+}
+
+/* Title */
+.win-title {
+    font-family: 'Cinzel', serif;
+    font-size: 2.2em;
+    margin-bottom: 8px;
+    letter-spacing: 2px;
+
+    background: linear-gradient(
+        45deg,
+        #ffdfe3,
+        #f6c2c7,
+        var(--gold)
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Subtitle */
+.win-subtitle {
+    font-size: 1.05em;
+    color: #e5c9ce;
+    margin-bottom: 20px;
+    opacity: 0.92;
+}
+
+/* Stats Section */
+.victory-stats {
+    margin: 25px 0;
+}
+
+.journey-line {
+    font-size: 1.05em;
+    margin-bottom: 20px;
+    line-height: 1.6;
+    color: #f6eaec;
+}
+
+.collectibles.refined {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    font-size: 1.2em;
+    margin-top: 10px;
+}
+
+.collectibles.refined span {
+    color: #f0dce0;
+    opacity: 1;
+    position: relative;
+}
+
+.collectibles.refined span::after {
+    content: '✦';
+    position: absolute;
+    top: -11px;
+    right: -12px;
+    font-size: 0.52em;
+    color: rgba(255, 222, 230, 0.9);
+    opacity: 0;
+    animation: statTwinkle 2.6s ease-in-out infinite;
+}
+
+.collectibles.refined span:nth-child(2)::after {
+    animation-delay: 0.8s;
+}
+
+.collectibles.refined span:nth-child(3)::after {
+    animation-delay: 1.6s;
+}
+
+/* Reward Line */
+.reward-line {
+    margin: 30px 0 20px;
+    font-style: italic;
+    font-size: 1.05em;
+    color: #d9c1c6;
+    opacity: 1;
+}
+
+/* Primary reward button */
+.reward-btn {
+    width: 100%;
+    margin-bottom: 18px;
+    font-size: 1.1em;
+    padding: 12px 0;
+
+    background: linear-gradient(
+        180deg,
+        #efc3c2 0%,
+        #b76e79 100%
+    );
+    border-color: #8f525d;
+    color: #271f21;
+    position: relative;
+    overflow: hidden;
+    box-shadow:
+        0 4px 0 #8f525d,
+        0 0 18px rgba(213, 125, 124, 0.28);
+    animation: rewardPulse 3.6s ease-in-out infinite;
+}
+
+.reward-btn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(
+        115deg,
+        rgba(255, 255, 255, 0) 35%,
+        rgba(255, 240, 244, 0.35) 50%,
+        rgba(255, 255, 255, 0) 65%
+    );
+    transform: translateX(-120%);
+    animation: rewardShimmer 2.8s ease-in-out infinite;
+}
+
+.win-screen .modal-divider.gold {
+    background: linear-gradient(90deg, transparent, rgba(229, 179, 175, 0.95), transparent);
+}
+
+/* Secondary subtle button */
+.btn-secondary.subtle-btn {
+    width: 100%;
+    padding: 10px 0;
+    font-family: 'Cinzel', serif;
+    background: transparent;
+    border: 1px solid rgba(213, 125, 124, 0.35);
+    color: #d8c2c6;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.btn-secondary.subtle-btn:hover {
+    border-color: #d7a2a9;
+    color: #ffe9ed;
+    background: rgba(213, 125, 124, 0.12);
+}
+
+
+/* ============================= */
+/* COUPON TERMS MODAL */
+/* ============================= */
+
+#couponTermsModal .terms-content {
+    width: min(90vw, 560px);
+    max-width: 560px;
+    padding: 34px 34px 28px;
+    background: linear-gradient(180deg, #343a41 0%, #262c33 100%);
+    border: 2px solid rgba(213, 125, 124, 0.62);
+    border-radius: 12px;
+    box-shadow:
+        0 28px 64px rgba(0, 0, 0, 0.72),
+        0 0 24px rgba(213, 125, 124, 0.2);
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    animation: termsAuraPulse 5.8s ease-in-out infinite;
+    text-align: left;
+}
+
+#couponTermsModal .terms-content::before {
+    content: "";
+    position: absolute;
+    inset: 10px;
+    border: 1px solid rgba(229, 179, 175, 0.26);
+    border-radius: 7px;
+    pointer-events: none;
+    z-index: 1;
+}
+
+#couponTermsModal .terms-content::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 12px;
+    background:
+        radial-gradient(circle at 14% 18%, rgba(245, 214, 216, 0.28) 0 2px, transparent 4px),
+        radial-gradient(circle at 77% 22%, rgba(229, 179, 175, 0.24) 0 2px, transparent 4px),
+        radial-gradient(circle at 62% 72%, rgba(244, 232, 234, 0.2) 0 1.5px, transparent 3px),
+        radial-gradient(circle at 28% 84%, rgba(213, 125, 124, 0.2) 0 2px, transparent 4px),
+        radial-gradient(circle at 86% 86%, rgba(229, 179, 175, 0.16) 0 1px, transparent 3px);
+    opacity: 0.45;
+    pointer-events: none;
+    z-index: 0;
+    animation: termsSparkleDrift 11s linear infinite;
+}
+
+#couponTermsModal .terms-content > * {
+    position: relative;
+    z-index: 2;
+}
+
+#couponTermsModal .terms-content h2 {
+    font-family: 'Cinzel', serif;
+    font-size: 1.62rem;
+    letter-spacing: 0.7px;
+    color: #f4e8ea;
+    margin-bottom: 16px;
+    text-align: left;
+    text-shadow: 0 0 10px rgba(229, 179, 175, 0.25);
+    animation: termsTitleGlow 3.8s ease-in-out infinite;
+}
+
+#couponTermsModal .terms-content p {
+    margin: 12px 0;
+    font-size: 1rem;
+    line-height: 1.58;
+    color: #ddc7cb;
+}
+
+#couponTermsModal .terms-list {
+    margin: 10px 0 14px;
+    padding-left: 22px;
+    color: #ddc7cb;
+}
+
+#couponTermsModal .terms-list li {
+    margin: 8px 0;
+    line-height: 1.52;
+}
+
+#couponTermsModal .terms-greeting {
+    margin: 12px 0 6px;
+    font-family: 'Cinzel', serif;
+    letter-spacing: 0.3px;
+    color: #efc3c2;
+    text-align: center;
+}
+
+#couponTermsModal .terms-content p strong {
+    color: #efc3c2;
+}
+
+#couponTermsModal .terms-check {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    margin: 16px 0;
+    font-size: 0.99rem;
+    color: #eedde0;
+}
+
+#couponTermsModal .terms-check input[type='checkbox'] {
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 2px solid #a55f6b;
+    border-radius: 4px;
+    background: rgba(20, 24, 30, 0.75);
+    cursor: pointer;
+    position: relative;
+    transition: all 0.2s ease;
+}
+
+#couponTermsModal .terms-check input[type='checkbox']:checked {
+    background: linear-gradient(180deg, #efc3c2 0%, #d57d7c 100%);
+    border-color: #c97782;
+    box-shadow:
+        0 0 0 2px rgba(213, 125, 124, 0.16),
+        0 0 12px rgba(229, 179, 175, 0.3);
+}
+
+#couponTermsModal .terms-check input[type='checkbox']:checked::after {
+    content: "✓";
+    position: absolute;
+    font-size: 12px;
+    color: #23282f;
+    left: 3px;
+    top: -1px;
+    font-weight: 700;
+}
+
+#couponTermsModal .terms-actions {
+    margin-top: 24px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+#couponTermsModal .terms-actions .btn-primary,
+#couponTermsModal .terms-actions .btn-secondary {
+    width: 100%;
+    margin: 0;
+    padding: 11px 12px;
+    border-radius: 8px;
+    font-size: 0.94rem;
+    letter-spacing: 0.35px;
+    box-shadow: none;
+    transform: none;
+}
+
+#couponTermsModal .terms-actions .btn-primary {
+    background: linear-gradient(180deg, #efc3c2 0%, #b76e79 100%);
+    border: 1px solid #8f525d;
+    color: #231d1f;
+    animation: none;
+}
+
+#couponTermsModal .terms-actions .btn-primary::after {
+    content: none;
+}
+
+#couponTermsModal .terms-actions .btn-primary:hover:not(:disabled) {
+    background: linear-gradient(180deg, #f3cdcc 0%, #c27784 100%);
+    border-color: #a65f6b;
+    box-shadow:
+        0 0 0 1px rgba(213, 125, 124, 0.28),
+        0 0 16px rgba(213, 125, 124, 0.24);
+}
+
+#couponTermsModal .terms-actions .btn-primary:disabled {
+    background: linear-gradient(180deg, #666d75 0%, #535962 100%);
+    color: #a8afb7;
+    border-color: #4c525a;
+    cursor: not-allowed;
+    opacity: 0.95;
+}
+
+#couponTermsModal .terms-actions .btn-secondary {
+    background: rgba(48, 55, 62, 0.68);
+    border: 1px solid rgba(213, 125, 124, 0.48);
+    color: #e0c8cc;
+}
+
+#couponTermsModal .terms-actions .btn-secondary:hover {
+    background: rgba(58, 65, 73, 0.92);
+    border-color: rgba(229, 179, 175, 0.7);
+    color: #f7e8eb;
+}
+
+@media (max-width: 640px) {
+    #couponTermsModal .terms-content {
+        width: min(94vw, 560px);
+        padding: 28px 24px 22px;
+    }
+
+    #couponTermsModal .terms-actions {
+        grid-template-columns: 1fr;
+    }
+}
+
+@keyframes termsAuraPulse {
+    0%, 100% {
+        box-shadow:
+            0 28px 64px rgba(0, 0, 0, 0.72),
+            0 0 24px rgba(213, 125, 124, 0.2);
+    }
+    50% {
+        box-shadow:
+            0 30px 68px rgba(0, 0, 0, 0.74),
+            0 0 34px rgba(229, 179, 175, 0.28);
+    }
+}
+
+@keyframes termsSparkleDrift {
+    0% {
+        transform: translateY(0) translateX(0);
+        opacity: 0.36;
+    }
+    50% {
+        transform: translateY(-8px) translateX(4px);
+        opacity: 0.52;
+    }
+    100% {
+        transform: translateY(0) translateX(0);
+        opacity: 0.36;
+    }
+}
+
+@keyframes termsTitleGlow {
+    0%, 100% {
+        text-shadow: 0 0 8px rgba(229, 179, 175, 0.2);
+    }
+    50% {
+        text-shadow: 0 0 14px rgba(229, 179, 175, 0.38);
+    }
+}

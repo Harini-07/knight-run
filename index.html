@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title> Bring me Sunflowers</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Atmospheric Layers -->
+    <div class="vignette"></div>
+    <div class="sunflower-overlay"></div>
+
+    <div class="embers">
+        <div class="ember"></div>
+        <div class="ember"></div>
+        <div class="ember"></div>
+        <div class="ember"></div>
+        <div class="ember"></div>
+        <div class="ember"></div>
+    </div>
+
+    <div class="game-container">
+
+        <!-- Torches -->
+        <div class="torch left">
+            <div class="flame"></div>
+            <div class="flame"></div>
+            <div class="flame"></div>
+        </div>
+
+        <div class="torch right">
+            <div class="flame"></div>
+            <div class="flame"></div>
+            <div class="flame"></div>
+        </div>
+
+        <!-- Decorative Frame -->
+        <div class="corner-bracket top-left"></div>
+        <div class="corner-bracket top-right"></div>
+        <div class="corner-bracket bottom-left"></div>
+        <div class="corner-bracket bottom-right"></div>
+
+        <div class="parchment">
+
+            <!-- HEADER -->
+            <header class="header">
+                <h1 class="main-title">
+                    <span class="initial">B</span>ring me
+                    <span class="initial">S</span>unflowers
+                </h1>
+
+                <p class="subtitle">Dont Trip</p>
+
+                <p class="quote-line">
+                    This seemed simpler in my head.
+                </p>
+            </header>
+
+            <!-- STATS BAR -->
+            <section class="stats">
+                <div class="stat-box">
+                    <span class="stat-icon">⚜</span>
+                    <span id="distance" class="stat-value">0m</span>
+                </div>
+
+                <div class="stat-divider">⚜</div>
+
+                <div class="stat-box items">
+                    <span id="hearts">♥ 0</span>
+                    <span id="sunflowers">◆ 0</span>
+                    <span id="teddies">✦ 0</span>
+                </div>
+            </section>
+
+            <!-- GAME CANVAS -->
+            <section class="canvas-wrapper">
+                <div class="canvas-frame">
+                    <canvas id="gameCanvas"></canvas>
+                </div>
+            </section>
+
+            <!-- CONTROLS -->
+            <section class="controls">
+                <p class="instructions single-line">
+                    Leap boldly with 
+                    <span class="key">SPACE</span> 
+                    or 
+                    <span class="key">↑</span>, 
+                    bow with 
+                    <span class="key">↓</span>.
+    
+                </p>
+
+                <button id="startBtn" class="btn-primary golden">
+                    ⚔ Ride for Her ⚔
+                </button>
+            </section>
+
+        </div>
+
+        <div class="checkered-border bottom"></div>
+
+        <!-- INTRO MODAL -->
+        <div id="introScreen" class="modal intro-screen">
+    <div class="modal-content intro-content">
+
+        <div class="modal-decoration">♞</div>
+
+        <h2 class="royal-heading">I Expect You Alive.</h2>
+        <div class="modal-divider"></div>
+
+        <div class="intro-lines single-column">
+
+            <p class="lead-line">
+                Sir Knight,
+            </p>
+
+            <p>
+                I trust you are on your way. do try to collect the hearts along the way.
+                Collect the hearts you find. Not because I asked — but because I know you will.
+            </p>
+
+            <p>
+                Take the sunflowers. Their warmth will protect you… but not forever.
+                I trust you understand what that implies.
+            </p>
+
+            <p>
+                Rescue the teddies if you find them.
+                Fragile things deserve protection.
+                You have always been rather good at that.
+            </p>
+
+            <p>
+                And if you discover the rare gem —
+                keep it… or bring it to me.
+                It multiplies your gifts.
+                I do enjoy being spoiled.
+            </p>
+
+            <p class="controls-line">
+                Leap when you must.
+                Bow when necessary.
+                Avoid the spikes.
+                Beware the eagles.
+            </p>
+
+            <p class="closing-line">
+                I would hate to have arranged all of this
+                and not see you at the end of it.
+            </p>
+
+        </div>
+
+        <p class="whisper">
+            With impossible patience,<br>
+            The Princess
+        </p>
+
+        <button id="introStartBtn" class="btn-primary golden">
+            ♔ Begin the Reckoning ♔
+        </button>
+
+    </div>
+</div>
+
+        </div>
+
+        <!-- GAME OVER -->
+        <div id="gameOver" class="modal game-over hidden">
+            <div class="modal-content">
+                <div class="modal-decoration">☠</div>
+
+                <h2>We’re pretending that didn’t happen.</h2>
+                <div class="modal-divider"></div>
+
+                <p>Journey: <span id="finalScore" class="highlight">0m</span></p>
+
+                <p class="collectibles">
+                    <span>♥ <span id="finalHearts">0</span></span>
+                    <span>◆ <span id="finalSunflowers">0</span></span>
+                    <span>✦ <span id="finalTeddies">0</span></span>
+                </p>
+                <br>
+
+                <button id="restartBtn" class="btn-primary">
+                    Try Again.<br> Properly this time.
+                </button>
+            </div>
+        </div>
+
+        <!-- WIN SCREEN -->
+        <div id="winScreen" class="modal win-screen hidden">
+    <div class="modal-content victory">
+
+        <div class="victory-crown">♛</div>
+
+        <h2 class="win-title">Impressive.</h2>
+        <p class="win-subtitle">You brought the sunflowers.</p>
+
+        <div class="modal-divider gold"></div>
+
+        <div class="victory-stats">
+            <p class="journey-line">
+                You crossed <span id="winDistance" class="highlight">0m</span>
+                and you are still standing.
+            </p>
+
+            <div class="collectibles refined">
+                <span>♥ <span id="winHearts">0</span></span>
+                <span>◆ <span id="winSunflowers">0</span></span>
+                <span>✦ <span id="winTeddies">0</span></span>
+            </div>
+        </div>
+
+        <p class="reward-line">
+            I suppose I owe you something.
+        </p>
+
+        <button id="downloadCouponBtn" class="btn-primary reward-btn">
+            ♡ Claim Your Reward ♡
+        </button>
+
+        <button id="playAgainBtn" class="btn-secondary subtle-btn">
+            Another Reckoning
+        </button>
+
+    </div>
+</div>
+
+        <!-- COUPON TERMS MODAL -->
+        <div id="couponTermsModal" class="modal hidden">
+            <div class="modal-content terms-content">
+                <h2>Before You Accept This..</h2>
+                <div class="modal-divider gold"></div>
+
+                <ul class="terms-list">
+                    <li>You are about to receive an Argument Immunity Pass.</li>
+                    <li>It may be used once per year.</li>
+                    <li>Attempting to collect multiple passes will result in immediate revocation. I am generous. Not foolish.</li>
+                    <li>Void if used for nonsense. I determine what qualifies as nonsense.</li>
+                    <li>I will remember when you use it.</li>
+                </ul>
+
+                <p class="terms-greeting">Happy Valentine&rsquo;s Day.</p>
+
+                <label class="terms-check">
+                    <input type="checkbox" id="termsConsequences">
+                    <span>I will not attempt to farm multiple passes.</span>
+                </label>
+                <label class="terms-check">
+                    <input type="checkbox" id="termsAuthority">
+                    <span>I will not try to loophole this.</span>
+                </label>
+
+                <div class="terms-actions">
+                    <button id="acceptPowerBtn" class="btn-primary reward-btn" disabled>
+                        Accept
+                    </button>
+                    <button id="notReadyBtn" class="btn-secondary subtle-btn">
+                        I’m Not Ready
+                    </button>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <script src="scripts/game.js"></script>
+
+</body>
+</html>
